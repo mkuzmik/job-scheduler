@@ -1,6 +1,5 @@
 package com.mkuzmik.job.scheduler.batch;
 
-
 import com.opencsv.bean.CsvBindByName;
 
 import java.util.Objects;
@@ -66,15 +65,12 @@ public class Job {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Job job = (Job) o;
-        return id == job.id &&
-                period == job.period &&
-                duration == job.duration &&
-                cost == job.cost;
+        return id == job.id;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, period, duration, cost);
+        return Objects.hash(id);
     }
 }
