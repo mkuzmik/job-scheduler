@@ -1,5 +1,8 @@
-package com.mkuzmik.job.scheduler;
+package com.mkuzmik.job.scheduler.batch;
 
+import com.mkuzmik.job.scheduler.batch.Batch;
+import com.mkuzmik.job.scheduler.batch.BatchReader;
+import com.mkuzmik.job.scheduler.batch.Job;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
