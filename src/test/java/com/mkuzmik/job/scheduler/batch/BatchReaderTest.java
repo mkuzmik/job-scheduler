@@ -1,8 +1,5 @@
 package com.mkuzmik.job.scheduler.batch;
 
-import com.mkuzmik.job.scheduler.batch.Batch;
-import com.mkuzmik.job.scheduler.batch.BatchReader;
-import com.mkuzmik.job.scheduler.batch.Job;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,6 +26,19 @@ public class BatchReaderTest {
 
         // when
         Batch actualBatch = batchReader.fromCSVFile("src/test/resources/batch_csv/sample_batch.csv");
+
+        // then
+        assertThat(actualBatch.getJobs()).containsOnly(expectedJobs);
+    }
+
+    @Test
+    public void shouldCreateBatchOnlyWithUniqueJobs() throws Exception {
+        Job[] expectedJobs = new Job[] {
+                new Job(0, 10, 4, 2)
+        };
+
+        // when
+        Batch actualBatch = batchReader.fromCSVFile("src/test/resources/batch_csv/duplicated_jobs.csv");
 
         // then
         assertThat(actualBatch.getJobs()).containsExactly(expectedJobs);
