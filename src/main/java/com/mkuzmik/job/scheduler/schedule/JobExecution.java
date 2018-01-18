@@ -8,19 +8,19 @@ public class JobExecution {
 
     private int executionTime;
 
-    private Job job;
+    private ScheduledJob scheduledJob;
 
-    public JobExecution(int executionTime, Job job) {
+    public JobExecution(int executionTime, ScheduledJob job) {
         this.executionTime = executionTime;
-        this.job = job;
+        this.scheduledJob = job;
     }
 
     public int getExecutionTime() {
         return executionTime;
     }
 
-    public Job getJob() {
-        return job;
+    public ScheduledJob getScheduledJob() {
+        return scheduledJob;
     }
 
     @Override
@@ -29,12 +29,12 @@ public class JobExecution {
         if (o == null || getClass() != o.getClass()) return false;
         JobExecution that = (JobExecution) o;
         return executionTime == that.executionTime &&
-                Objects.equals(job, that.job);
+                Objects.equals(scheduledJob, that.scheduledJob);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(executionTime, job);
+        return Objects.hash(executionTime, scheduledJob);
     }
 }

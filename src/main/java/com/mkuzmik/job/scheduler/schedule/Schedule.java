@@ -36,12 +36,12 @@ public class Schedule {
                 .reduce(Integer::min);
         
         if (maybeNextExecutionTime.isPresent()) {
-            int nextExecutionTime = maybeNextExecutionTime.get().intValue();
+            int nextExecutionTime = maybeNextExecutionTime.get();
 
             return scheduledJobs.stream()
                     .filter(scheduledJob ->
                         scheduledJob.nextExecutionTimeAfter(timestamp) == nextExecutionTime)
-                    .map(scheduledJob -> new JobExecution(nextExecutionTime, scheduledJob.getJob()))
+                    .map(scheduledJob -> new JobExecution(nextExecutionTime, scheduledJob))
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>();

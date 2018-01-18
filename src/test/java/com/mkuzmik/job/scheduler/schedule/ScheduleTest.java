@@ -16,18 +16,22 @@ public class ScheduleTest {
     private Job job2;
     private Job job3;
 
+    ScheduledJob scheduledJob1;
+    ScheduledJob scheduledJob2;
+    ScheduledJob scheduledJob3;
+
     private Schedule schedule;
 
     @BeforeMethod
     public void setUp() throws Exception {
         job1 = new Job(0, 5, 3, 1);
-        ScheduledJob scheduledJob1 = new ScheduledJob(0, job1);
+        scheduledJob1 = new ScheduledJob(0, job1);
 
         job2 = new Job(1, 7, 2, 2);
-        ScheduledJob scheduledJob2 = new ScheduledJob(1, job2);
+        scheduledJob2 = new ScheduledJob(1, job2);
 
         job3 = new Job(2, 3, 1, 4);
-        ScheduledJob scheduledJob3 = new ScheduledJob(2, job3);
+        scheduledJob3 = new ScheduledJob(2, job3);
 
         schedule = new Schedule();
         Arrays.asList(scheduledJob1, scheduledJob2, scheduledJob3).forEach(
@@ -77,10 +81,10 @@ public class ScheduleTest {
         List<JobExecution> nextJobExecutions = schedule.getNextJobExecutionsAfter(5);
 
         // then
-        JobExecution expectedJobExecution1 = new JobExecution(8, job2);
-        JobExecution expectedJobExecution2 = new JobExecution(8, job3);
+        JobExecution expectedJobExecution1 = new JobExecution(8, scheduledJob2);
+        JobExecution expectedJobExecution2 = new JobExecution(8, scheduledJob3);
 
-        assertThat(nextJobExecutions).containsExactly(expectedJobExecution1, expectedJobExecution2);
+        assertThat(nextJobExecutions).containsOnly(expectedJobExecution1, expectedJobExecution2);
     }
 
     @Test
@@ -89,9 +93,9 @@ public class ScheduleTest {
         List<JobExecution> nextJobExecutions = schedule.getNextJobExecutionsAfter(0);
 
         // then
-        JobExecution expectedJobExecution = new JobExecution(1, job2);
+        JobExecution expectedJobExecution = new JobExecution(1, scheduledJob2);
 
-        assertThat(nextJobExecutions).containsExactly(expectedJobExecution);
+        assertThat(nextJobExecutions).containsOnly(expectedJobExecution);
     }
 
     @Test
@@ -106,8 +110,8 @@ public class ScheduleTest {
         List<JobExecution> nextJobExecutions = schedule.getNextJobExecutionsAfter(3);
 
         // then
-        JobExecution expectedJobExecution = new JobExecution(4, job);
+        JobExecution expectedJobExecution = new JobExecution(4, scheduledJob);
 
-        assertThat(nextJobExecutions).containsExactly(expectedJobExecution);
+        assertThat(nextJobExecutions).containsOnly(expectedJobExecution);
     }
 }
