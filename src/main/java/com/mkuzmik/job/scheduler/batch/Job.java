@@ -1,4 +1,4 @@
-package com.mkuzmik.job.scheduler;
+package com.mkuzmik.job.scheduler.batch;
 
 
 import com.opencsv.bean.CsvBindByName;
