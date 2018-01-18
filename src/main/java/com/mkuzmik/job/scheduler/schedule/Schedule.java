@@ -1,9 +1,11 @@
 package com.mkuzmik.job.scheduler.schedule;
 
 import com.mkuzmik.job.scheduler.batch.Job;
+import com.mkuzmik.job.scheduler.util.MathUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Schedule {
 
@@ -31,6 +33,7 @@ public class Schedule {
     }
 
     public List<JobExecution> getNextJobExecutionsAfter(int timestamp) {
+
         Optional<Integer> maybeNextExecutionTime = scheduledJobs.stream()
                 .map(scheduledJob -> scheduledJob.nextExecutionTimeAfter(timestamp))
                 .reduce(Integer::min);
@@ -46,5 +49,15 @@ public class Schedule {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    public int maximumCost() {
+        int leastCommonMultiply = MathUtil.leastCommonMultiple(scheduledJobs.stream()
+                .map(scheduledJob -> scheduledJob.getStartTime() + scheduledJob.getJob().getPeriod())
+                .toArray(Integer[]::new));
+
+        OptionalInt maybeMaxCost = IntStream.rangeClosed(0, leastCommonMultiply).map(i -> costAt(i)).max();
+
+        return maybeMaxCost.isPresent()? maybeMaxCost.getAsInt(): 0;
     }
 }

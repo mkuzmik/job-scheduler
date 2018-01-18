@@ -114,4 +114,38 @@ public class ScheduleTest {
 
         assertThat(nextJobExecutions).containsOnly(expectedJobExecution);
     }
+
+    @Test
+    public void shouldReturnProperMaximumCost() throws Exception {
+        // when
+        int maxCost = schedule.maximumCost();
+
+        // then
+        assertThat(maxCost).isEqualTo(7);
+    }
+
+    @Test
+    public void shouldProperMaximumCost2() throws Exception {
+        // given
+        ScheduledJob newJob = new ScheduledJob(2000, new Job(1,1,1,20));
+        schedule.scheduleJob(newJob);
+
+        // when
+        int maxCost = schedule.maximumCost();
+
+        // then
+        assertThat(maxCost).isEqualTo(25);
+    }
+
+    @Test
+    public void shouldReturnZeroMaximumCostWhenScheduleIsEmpty() throws Exception {
+        // given
+        Schedule schedule = new Schedule();
+
+        // when
+        int maxCost = schedule.maximumCost();
+
+        // then
+        assertThat(maxCost).isEqualTo(0);
+    }
 }
