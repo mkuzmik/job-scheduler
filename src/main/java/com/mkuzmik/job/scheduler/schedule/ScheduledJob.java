@@ -23,6 +23,15 @@ public class ScheduledJob {
         return job;
     }
 
+    public boolean isRunningAt(int timestamp) {
+        if (timestamp < startTime)
+            return false;
+
+        int absoluteTime = timestamp - startTime;
+        int partOfPeriod = absoluteTime % job.getPeriod();
+        return partOfPeriod < job.getDuration();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
