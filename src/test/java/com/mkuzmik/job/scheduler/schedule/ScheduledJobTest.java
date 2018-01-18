@@ -29,7 +29,7 @@ public class ScheduledJobTest {
     }
 
     @Test(dataProvider = "isRunningAt")
-    public void testIsRunningAt(int startTime, int period, int duration, int timestamp, boolean shouldBeRunningAt) throws Exception {
+    public void shouldReturnWhetherIsRunningAtGivenTimestamp(int startTime, int period, int duration, int timestamp, boolean shouldBeRunningAt) throws Exception {
         // given
         Job job = new Job(1, period, duration, 2);
         ScheduledJob scheduledJob = new ScheduledJob(startTime, job);
@@ -39,5 +39,57 @@ public class ScheduledJobTest {
 
         //then
         assertThat(isRunningAt).isEqualTo(shouldBeRunningAt);
+    }
+
+    @Test
+    public void shouldReturnNextExecutionTimeWhenJobPeriodIsEqualToDuration() throws Exception {
+        // given
+        Job job = new Job(1,1,1,1);
+        ScheduledJob scheduledJob = new ScheduledJob(0, job);
+
+        // when
+        int nextExecutionTime = scheduledJob.nextExecutionTimeAfter(3);
+
+        // then
+        assertThat(nextExecutionTime).isEqualTo(4);
+    }
+
+    @Test
+    public void shouldReturnNextExecutionTime() throws Exception {
+        // given
+        Job job = new Job(1,100,1,1);
+        ScheduledJob scheduledJob = new ScheduledJob(0, job);
+
+        // when
+        int nextExecutionTime = scheduledJob.nextExecutionTimeAfter(1);
+
+        // then
+        assertThat(nextExecutionTime).isEqualTo(100);
+    }
+
+    @Test
+    public void shouldReturnNextExecutionTimeAsStartTimeWhenTimestampIsLowerThanStartTime() throws Exception {
+        // given
+        Job job = new Job(1,1,1,1);
+        ScheduledJob scheduledJob = new ScheduledJob(0, job);
+
+        // when
+        int nextExecutionTime = scheduledJob.nextExecutionTimeAfter(3);
+
+        // then
+        assertThat(nextExecutionTime).isEqualTo(4);
+    }
+
+    @Test
+    public void shouldReturnNextExecutionTimeAsStartTimeWhenTimestampIsLowerThanZero() throws Exception {
+        // given
+        Job job = new Job(1,100,1,1);
+        ScheduledJob scheduledJob = new ScheduledJob(0, job);
+
+        // when
+        int nextExecutionTime = scheduledJob.nextExecutionTimeAfter(-50);
+
+        // then
+        assertThat(nextExecutionTime).isEqualTo(0);
     }
 }
