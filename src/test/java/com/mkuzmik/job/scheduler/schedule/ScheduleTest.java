@@ -148,4 +148,36 @@ public class ScheduleTest {
         // then
         assertThat(maxCost).isEqualTo(0);
     }
+
+    @Test
+    public void shouldReturnSumOfAllJobsCostWhenAllStartAtTheSameTime() throws Exception {
+        // given
+        Schedule schedule = new Schedule();
+        ScheduledJob newJob1 = new ScheduledJob(2000, new Job(1,35,1,20));
+        schedule.scheduleJob(newJob1);
+        ScheduledJob newJob2 = new ScheduledJob(2000, new Job(2,34,1,20));
+        schedule.scheduleJob(newJob2);
+
+        // when
+        int maxCost = schedule.maximumCost();
+
+        // then
+        assertThat(maxCost).isEqualTo(40);
+    }
+
+    @Test
+    public void shouldReturnCostOfOneJobAsMaxWhenTheyNeverSpotsEachOther() throws Exception {
+        // given
+        Schedule schedule = new Schedule();
+        ScheduledJob newJob1 = new ScheduledJob(0, new Job(1,2,1,20));
+        schedule.scheduleJob(newJob1);
+        ScheduledJob newJob2 = new ScheduledJob(1, new Job(2,2,1,20));
+        schedule.scheduleJob(newJob2);
+
+        // when
+        int maxCost = schedule.maximumCost();
+
+        // then
+        assertThat(maxCost).isEqualTo(20);
+    }
 }

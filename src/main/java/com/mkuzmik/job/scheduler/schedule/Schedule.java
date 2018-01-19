@@ -52,11 +52,18 @@ public class Schedule {
     }
 
     public int maximumCost() {
-        int leastCommonMultiply = MathUtil.leastCommonMultiple(scheduledJobs.stream()
+        int maxStartTime = scheduledJobs.stream()
+                .map(ScheduledJob::getStartTime)
+                .reduce(Integer::max)
+                .orElse(0);
+
+        int commonPeriodOfAllJobs = MathUtil.leastCommonMultiple(scheduledJobs.stream()
                 .map(scheduledJob -> scheduledJob.getStartTime() + scheduledJob.getJob().getPeriod())
                 .toArray(Integer[]::new));
 
-        OptionalInt maybeMaxCost = IntStream.rangeClosed(0, leastCommonMultiply).map(i -> costAt(i)).max();
+        OptionalInt maybeMaxCost = IntStream.range(maxStartTime, commonPeriodOfAllJobs + maxStartTime)
+                .map(this::costAt)
+                .max();
 
         return maybeMaxCost.isPresent()? maybeMaxCost.getAsInt(): 0;
     }
